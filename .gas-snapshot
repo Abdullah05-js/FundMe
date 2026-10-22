@@ -1,0 +1,6 @@
+FundMeTest:testFund() (gas: 120731)
+FundMeTest:testMIN_USD() (gas: 5741)
+FundMeTest:testOwnerIsMsgSender() (gas: 5849)
+FundMeTest:testWithdraw() (gas: 93650)
+FundMeTest:testWithdrawWithUser() (gas: 109113)
+FundMeTest:test_FailIfnotEnoughEthFunded() (gas: 26408)
