@@ -55,10 +55,7 @@ contract FundMeTest is Test {
         console.log("endingOwnerBalance: ", endingOwnerBalance);
         console.log("endingContractBalance: ", endingContractBalance);
         assertEq(endingContractBalance, 0);
-        assertEq(
-            startingOwnerBalance + startingContractBalance,
-            endingOwnerBalance
-        );
+        assertEq(startingOwnerBalance + startingContractBalance, endingOwnerBalance);
     }
 
     modifier funded() {
@@ -75,6 +72,4 @@ contract FundMeTest is Test {
         vm.expectRevert();
         fundMe.withdraw();
     }
-
-
 }

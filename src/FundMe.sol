@@ -16,8 +16,8 @@ contract FundMe {
     AggregatorV3Interface public immutable PRICE_FEED;
     address[] private funders;
     mapping(address => uint256) private addressToAmountFunded;
-    
-    constructor( address _priceFeed) {
+
+    constructor(address _priceFeed) {
         owner = msg.sender;
         PRICE_FEED = AggregatorV3Interface(_priceFeed);
     }
@@ -28,10 +28,7 @@ contract FundMe {
     }
 
     function fund() external payable {
-        require(
-            PriceConverter.getConversionRate(msg.value, address(PRICE_FEED)) >= MINIMUM_USD,
-            FundMe__NotEnoughEth()
-        );
+        require(PriceConverter.getConversionRate(msg.value, address(PRICE_FEED)) >= MINIMUM_USD, FundMe__NotEnoughEth());
         uint256 funded = addressToAmountFunded[msg.sender];
         if (funded == 0) funders.push(msg.sender);
         addressToAmountFunded[msg.sender] = funded + msg.value;
@@ -43,9 +40,7 @@ contract FundMe {
             delete addressToAmountFunded[funders[i]];
         }
         delete funders;
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, FundMe__PriceError());
     }
 
@@ -53,11 +48,7 @@ contract FundMe {
         return funders[index];
     }
 
-    function getAddressToAmountFunded(address funder)
-        public
-        view
-        returns (uint256)
-    {
+    function getAddressToAmountFunded(address funder) public view returns (uint256) {
         return addressToAmountFunded[funder];
     }
 }

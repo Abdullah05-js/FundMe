@@ -6,18 +6,15 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 error PriceError();
 
 library PriceConverter {
-    function getPrice(address _priceFeed) internal view returns (uint) {
+    function getPrice(address _priceFeed) internal view returns (uint256) {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(_priceFeed);
-        (, int256 price, , , ) = priceFeed.latestRoundData();
+        (, int256 price,,,) = priceFeed.latestRoundData();
         require(price > 0, PriceError());
         uint8 dec = priceFeed.decimals();
         return uint256(price) * 10 ** (18 - dec);
     }
 
-    function getConversionRate(
-        uint256 ethAmount,
-        address _priceFeed
-    ) internal view returns (uint256) {
+    function getConversionRate(uint256 ethAmount, address _priceFeed) internal view returns (uint256) {
         uint256 ethPrice = getPrice(_priceFeed);
         return (ethPrice * ethAmount) / 1e18;
     }
